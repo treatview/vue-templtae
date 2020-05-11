@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+        <h6>{{message}}</h6>
+        <h6 >{{message}}</h6>
+        <h5 v-once>{{name}} 数据变化时不会变化</h5>
+        <h5 v-html="url"></h5>
+        <h5 v-text="message">我是元数据</h5>
+        <h5 v-pre>{{message}}不解析mustache</h5>
+        <h5 >{{message}}斗篷,</h5>
+        <ul>
+            <li v-for="item in movies">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    //解析之前有一个v-cloak 解析之后会被删除
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+            name: 'zhangs',
+            movies: ['大话西游','少年派','盗梦空间','00后'],
+            url: '<a href="http://www.baidu.com">百度，数据为html</a>'
+        }
+    })
+</script>  
+</html>
