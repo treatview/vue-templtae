@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<input type="button" value="beforeUp" @click="msg='NO'">
+		<h1 id="h1">{{msg}}</h1>
+	</div>
+<script>
+	var vm = new Vue({
+		el : '#app',
+		data : {
+			msg : 'msg'
+		},
+		methods : {
+			show() {
+				console.log('执行show');
+			}
+		},
+		/* 创建渲染阶段*/
+		beforeCreate() {
+			console.log(this.msg);
+		},
+		created() {
+			console.log('this is created');
+		},
+		//将要挂载
+		//
+		beforeMount() {
+			console.log(document.getElementById('h1').innerText);
+		},
+		mounted() {
+			console.log(document.getElementById('h1').innerText);
+		},
+		/* 运行阶段*/
+		beforeUpdate: function() {
+			//页面中显示数据 为旧的 还未渲染到界面
+			console.log(document.getElementById('h1').innerText);
+			console.log(this.msg);
+		},
+		updated: function() {
+			console.log(document.getElementById('h1').innerText);
+		}
+	})
+</script>
+
+</body>
+</html>

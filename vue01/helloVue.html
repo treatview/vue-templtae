@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h6>{{message}}</h6>
+        <h5>{{name}}</h5>
+        <ul>
+            <li v-for="item in movies">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+            name: 'zhangs',
+            movies: ['大话西游','少年派','盗梦空间','00后']
+        }
+    })
+</script>  
+</html>

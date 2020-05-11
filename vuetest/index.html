@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js"></script>
+	<style>
+		.thin {
+			letter-spacing: 0.5em;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- :class=[flag?'thin':''] -->
+		<!-- :class="{thin}" -->
+		<h1 :class="{thin: true}">dasf</h1>
+		<h1 :class="classObj">dasf</h1>
+		<h1  :class="[{'thin':flag}]">{{ msg }}</h1>
+		<input type="text" :value="msg">
+		<input type="text" v-model="msg">
+		<input type="button" @click="show" value="点击">
+	</div>
+</body>
+	<script>
+		var vm = new Vue({
+			el : "#app",
+			data : {
+				flag : false,
+				classObj : { thin: true},
+				msg : "new"
+			},
+			methods : {
+				show(){
+					console.log('show');
+				}
+			}
+		})
+	</script>
+</html>

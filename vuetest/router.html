@@ -1,0 +1,59 @@
+<!-- 单页面跳转 http 请求中不会获取hash中的内容 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="./lib/js/vue.js"></script>
+	<script src="./lib/js/vue-router.js"></script>
+	<style>
+		.router-link-active {
+			color: red;
+			font-size: 14px;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- <a href="#/login">登陆</a>
+		<a href="#/registry">注册</a> -->
+		<router-link to="/login?id=10">登陆</router-link>
+		<router-link to="/registry/12">注册</router-link>
+		<transition>
+			<router-view></router-view>
+		</transition>
+	</div>
+</body>
+<script>
+	var login = {
+		template: '<h1>这是登陆{{$route.query.id}}</h1>',//获取
+		data(){
+			return {}
+		},
+		created(){
+			console.log(this.$route.query);//获取path 中的数据
+		}
+	}
+	var registry = {
+		template: '<h2>这是注册{{$route.params.id}}</h2>'
+	}
+	var routerObj = new VueRouter({
+		routes: [
+		//路由匹配规则
+		//component 必须为组件对象
+			{path: '/', redirect: '/login'},//重定向
+			{path: '/login',component: login},
+			{path: '/registry/:id',component: registry},
+		],
+		// linkActiveClass: 'myactive'//定义类名
+	})
+	var vm = new Vue({
+		el : '#app',
+		data: {},
+		methods: {},
+		router: routerObj //纪念馆路由规则对象 这侧到vm实例上
+
+	})
+</script>
+</html>

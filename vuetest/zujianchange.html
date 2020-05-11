@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件切换</title>
+	<script src="./lib/js/vue.js"></script>
+	<style>
+		.v-enter,
+		.v-leave-to {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		.v-enter-active,
+		.v-leave-active {
+			transition : all 0.8s ease;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<h1>登陆注册切换</h1>
+		<h3><a href="" @click.prevent="flag=true">登陆</a><a href="" @click.prevent="flag=false">注册</a></h3>
+		<login v-if="flag"></login>
+		<registry v-else></registry>
+	</div>
+	<div id="app2">
+		<h2>登陆注册切换</h2>
+		<h3><a href="" @click.prevent="comname='login'">登陆</a><a href="" @click.prevent="comname='registry'">注册</a></h3>
+		<!-- 组件切换 -->
+		<transition mode="out-in">
+			<component :is="comname"></component>
+		</transition>
+	</div>
+</body>
+<script>
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			flag: true
+		},
+		methods: {},
+		components: {
+			login: {
+				template: '<h3>登陆</h3>',
+				data: function(){
+					return {}
+				}
+			},
+			registry: {
+				template: '<h3>注册</h3>',
+				data: function(){
+					return {}
+				}
+			}
+		}
+	});
+	var vm2 = new Vue({
+		el: '#app2',
+		data: {
+			flag: true,
+			comname: "login"//组件名称
+		},
+		methods: {},
+		components: {
+			login: {
+				template: '<h3>登陆</h3>',
+				data: function(){
+					return {}
+				}
+			},
+			registry: {
+				template: '<h3>注册</h3>',
+				data: function(){
+					return {}
+				}
+			}
+		}
+	})
+</script>
+</html>

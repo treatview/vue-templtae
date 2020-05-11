@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title><script src="./lib/js/vue.js"></script>
+	<script src="./lib/js/vue-router.js"></script>
+</head>
+<body>
+	<div id="app">
+		<router-link to="/login">登陆</router-link>
+		<router-view></router-view>
+		<router-view name='left'></router-view>
+		<router-view name='right'></router-view>
+		<input type="text" v-model="firstname">+
+		<input type="text" v-model="middlename">+
+		<input type="text" v-model="lastname">=
+		<input type="text" v-model="fullname">
+		<p>{{fullname}}</p>
+		<p>{{fullname}}</p>
+	</div>
+</body>
+<script>
+	var login = {
+		template: '<h3>这是登陆</h3>'
+	}
+	var header = {
+		template: '<h1>header</h1>'
+	}
+	var leftBox = {
+		template: '<h1>leftBox</h1>'
+	}
+	var rightBox = {
+		template: '<h1>rightBox</h1>'
+	}
+	var routerObj = new VueRouter({
+		routes: [
+		{path: '/',components: {
+			'default': header,
+			'left': leftBox,
+			'right': rightBox
+			}
+		},
+		{path: '/login',component: login}
+		]
+	})
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			firstname: '',
+			lastname: '',
+			middlename: ''
+		},
+		methods: {
+
+		},
+		router: routerObj,
+		watch:{
+			//监视data数据的改变
+			// 'firstname': function(newVal, oldVal){
+			// 	this.fullname = newVal + this.lastname;
+			// },
+			// 'lastname': function(newVal){
+			// 	this.fullname = this.firstname + newVal; 
+			// },
+			//监听路由的改变
+			'$route.path': function(newVal){
+				console.log(newVal);
+			}
+		},
+		//可以定义属性 叫做计算属性 当作方法来调用  不能加（）调用
+		//计算属性的求值结果会被缓存  方便下次调用 
+		computed: {
+			'fullname': function(){
+				console.log('ok');
+				return this.firstname +'---'+ this.middlename +'---'+ this.lastname;
+			}
+		}
+	})
+</script>
+</html>

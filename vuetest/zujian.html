@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="./lib/js/vue.js"></script>
+	<script src="./lib/js/vue-resource1.5.1.js"></script>
+	<link rel="stylesheet" href="./lib/css/bootstrap.css">
+</head>
+<body>
+	<div id="app">
+		<mycom1></mycom1>
+		<mycom2></mycom2>
+		<mycom3></mycom3>	
+	</div>
+	<div id="app2">
+		<login></login>
+		<count></count><hr>
+		<count></count><hr>
+		<count></count><hr>
+	</div>
+	<template id="tpl">
+		<div >
+				<h1>这是外部组件的创建形式</h1>
+		</div>
+	</template>
+	<template id="tpl2">
+		<div>
+			<input type="button" value="点击" @click='increment'>
+			<h3>{{count}}</h3>		
+		</div>
+	</template>
+</body>
+<script>
+	//使用Vue.extend  全局组件  构造器第一种方式
+	var com1 = Vue.extend({
+		template : '<h3>这是 Vue.extend 创建的</h3>'
+	})
+	Vue.component('mycom1',com1);
+	/*第二种方式*/
+	Vue.component('mycom2',{
+		template : '<h3>直接Vue.component 创建</h3>'
+	});
+	/*第三种方式*/
+	Vue.component('mycom3',{
+		template : '#tpl'
+	})
+	Vue.component('mycom3',)
+	var vm = new Vue({
+		el : '#app',
+		data : {
+
+		},
+		methods : {}
+	});
+	var dataObj = {count: 0};
+
+	var vm2 = new Vue({
+		el: '#app2',
+		data: {
+			father: '父组件数据'
+		},
+		methods: {},
+		filters: {},
+		directives:{},
+		//私有组件
+		components: {
+			login: {
+				template: '<h3>我是私有组件{{msg}}</h3>',
+				data: function(){
+					return {
+						msg: '这是组件中data定义数据'
+					}
+				}
+			},
+			count: {
+				template: '#tpl2',
+				data: function(){
+					//return 对象 将开辟新空间 组件间不会相互影响
+					return {count: 0};
+				},
+				methods: {
+					increment(){
+						this.count++;
+					}
+				}
+			}
+		}
+
+	})
+</script>
+</html>

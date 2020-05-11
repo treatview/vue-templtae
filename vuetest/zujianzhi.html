@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件值传递</title>
+	<script src="./lib/js/vue.js"></script>
+	<link rel="stylesheet" href="./lib/css/bootstrap.css">
+</head>
+<body>
+	<div id="app">
+		<mycom @func='loadStore'></mycom>
+		
+		<com1 :parentmsg="parents" @func="show"></com1>
+		<ul class="list-group">
+			<li class="list-group-item" v-for="item in list" :key="item.id">
+				<span class="badge">{{item.user}}</span>
+				{{ item.content }}
+			</li>
+		</ul>
+
+		<input type="button" value="获取元素" @click="getElement">
+		<h3 id="h3" ref='myh3'>获取元素操作</h3>
+		<h3 id="h3" ref='myh4'>获取元素操作</h3>
+		<hr>组件引用
+		<mycom ref='zujian'></mycom>
+	</div>
+	<template id="tpl">
+		<div>
+			<div class="input-group">
+				<label>评论人：</label>
+				<input type="text" class="form-control" v-model="user">
+			</div>
+			<div class="input-group">
+				<label>评论内容：</label>
+				<textarea class="form-control" v-model="content"></textarea>
+			</div>
+			<div class="form-group">
+				<input type="button" value="发表评论" class="btn btn-primary" @click="postComment">
+			</div>
+		</div>
+	</template>
+</body>
+<script>
+	//定义组件
+	Vue.component('mycom',{
+		template: '#tpl',
+		data(){
+			return {
+				user: '',
+				content: '',
+				title: 'woshi'
+			}
+		},
+		methods: {
+			postComment() {
+				var coment = {id: Date.now(),user: this.user,content: this.content};
+				// 获取本地存储的内容 并转为对象
+			var list = JSON.parse(localStorage.getItem('cmts') || '[]');
+			list.unshift(coment);
+			//将json对象转为字符串存储
+			localStorage.setItem('cmts',JSON.stringify(list));
+			//将 用户及内容清康
+			this.user = this.content = '';
+			this.$emit('func');
+			}
+		}
+	})
+	var vm = new Vue({
+		el: '#app',
+		data: {
+			parents: '这是父组件数据',
+			store: '',
+			list: [
+			{id: 1,name: '李白', content: '去哪儿'},
+			{id: 2,name: '李小白', content: '去哪儿1'},
+			{id: 3,name: '李大白', content: '去哪儿2'}
+		]},
+		methods: {
+			show(data){
+				console.log('调用了父组件的方法'+data);
+				this.store = data;
+			},
+			//加载本地数据
+			loadStore(){
+				var list = JSON.parse(localStorage.getItem('cmts') || '[]');
+				this.list = list;
+			},
+			//$refs reference 引用类型
+			getElement(){
+				console.log(this.$refs.zujian.title)
+			}
+			
+		},
+		created(){
+			this.loadStore();
+		},
+		components: {
+			com1: {
+				template: '<div><h1 @click="change">这是子组件内容---{{parentmsg}}---{{title}}</h1><input type="button" @click="myclick" value="子组件获取父组件方法" /></div>',
+				data: function(){
+					return {
+						title: '121',
+						sonmsg: {name: 'zhang',age: 123}
+					}
+				},
+				//子组件先定义并且绑定 才能使用 
+				//父组件中 不要重新赋值
+				props: ['parentmsg'],
+				methods: {
+					change(){
+						// this.parentmsg = 'dfa';//不要这样写
+						this.title= '被修改了';
+					},
+					myclick(){
+						this.$emit('func',this.sonmsg.name);
+					}
+				}
+			}
+		}
+	})
+</script>
+</html>

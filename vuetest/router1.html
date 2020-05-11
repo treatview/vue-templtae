@@ -1,0 +1,68 @@
+<!-- 单页面跳转 http 请求中不会获取hash中的内容 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="./lib/js/vue.js"></script>
+	<script src="./lib/js/vue-router.js"></script>
+	<style>
+		.router-link-active {
+			color: red;
+			font-size: 14px;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<!-- <a href="#/login">登陆</a>
+		<a href="#/registry">注册</a> -->
+		<router-link to='/account'>Account</router-link>
+		<router-view></router-view>
+	</div>
+	<template id="tpl">
+		<div>
+			<h1>这是account组件</h1>
+			<router-link to='/account/login'>登陆</router-link>
+			<router-link to='/account/registry'>注册</router-link>
+			<router-view></router-view>
+		</div>
+	</template>
+</body>
+<script>
+	var account = {
+		template: '#tpl',//获取
+		data(){
+			return {}
+		},
+		created(){
+			
+		}
+	}
+	var login = {
+		template: '<h2>这是登陆</h2>'
+	}
+	var routerObj = new VueRouter({
+		routes: [
+		//路由匹配规则
+		//component 必须为组件对象
+			{path: '/account',component: account,children:[
+				{
+					path: 'login',component: login
+				}
+			]},//重定向
+			// {path: '/account/login',component: login},
+			// {path: '/registry',component: registry},
+		],
+		// linkActiveClass: 'myactive'//定义类名
+	})
+	var vm = new Vue({
+		el : '#app',
+		data: {},
+		methods: {},
+		router: routerObj //纪念馆路由规则对象 这侧到vm实例上
+
+	})
+</script>
+</html>

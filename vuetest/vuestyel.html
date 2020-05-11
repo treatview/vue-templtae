@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="vue.js"></script>
+	<style>
+		tr td {
+			border: 1px solid red;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p>{{ msg | myfilter }}</p>
+		<h1 :style="{color:'red','font-style':'40px'}">这是style</h1>
+		<p v-for="(item, i) in list">{{item}}</p>
+		<!-- 对象数组 -->
+		<p v-for="val in listObj" :key="val.id">
+			<input type="checkbox">{{ val.id}}
+			{{val.name}}
+		</p>
+		<!-- 对象 -->
+		<p v-for="(val,key,i) in user" >{{key}} {{val}} {{i}}</p>
+
+		<div>
+			<label>
+				Id:
+				<input type="text" v-model="id">
+			</label>
+			<label>
+				name:
+				<input type="text" v-model="name" @keyup.f2="cli()">
+			</label>
+			<input type="button" value="添加" @click="cli()">
+			<label >
+				搜索：
+				<input type="text" v-model="keywords" v-focus>
+			</label>
+		</div>
+		<table cellpadding="0" cellspacing="0">
+			<thead>
+				<th>id</th>
+				<th>name</th>
+				<th>操作</th>
+			</thead>
+			<tbody>
+				<tr v-for="val in search(keywords)" :key="val.id">
+					<td v-color="'pink'">{{val.id}}</td>
+					<td>{{val.name}}</td>
+					<td><a href="" @click.prevent="del(val.id)">删除</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script>
+	/*过滤器*/
+	Vue.filter('myfilter',function(val) {
+		return val.replace('hello','eeee');
+	})
+	Vue.filter('dateFormat',function(dataStr){
+		var dt = new Date(dateStr);
+
+	})
+	//自定义全局按键修饰符
+	Vue.config.keyCodes.f2 = 113;
+	/* 自定义指令*/
+	Vue.directive('focus',{
+		//钩子函数
+		/* bind 元素绑定到元素上时，调用该函数*/
+		bind: function (el) {
+
+		},
+		inserted: function (el) {
+    	// 聚焦元素
+    		el.focus()
+		},
+		updated: function (el) {
+
+		},
+
+	});
+	Vue.directive('color',{
+		bind:function (el, binding) {
+			el.style.color = binding.value;
+		}
+	})
+	var vm = new Vue({
+		el : '#app',
+		data : {
+			msg : 'hello world',
+			dt : new Date(),
+			id : '',
+			name : '',
+			keywords: '',
+			list : [1,2,3],
+			listObj : [
+				{ id: 1, name: 'zhangs'},
+				{ id: 2, name: 'zhangs1'},
+				{ id: 3, name: 'zhang3s'}
+			],
+			user : {
+				id: 1,
+				name: 'zhang'
+			}
+		},
+		methods : {
+			cli() {
+				var car = {id: this.id,name: this.name};
+				this.listObj.push(car);
+				this.id = this.name = "";
+			},
+			del(id) {
+				/*this.listObj.some((item,i)=>{
+					if(item.id == id){
+						this.list.splice(i,1)
+						return true;
+					}
+				})*/
+				var index = this.listObj.findIndex(item=>{
+					if (item.id == id){
+						return true;
+					}
+				})
+				this.listObj.splice(index,1);
+			},
+			search(keywords) {
+				var newList = [];
+
+				/*this.listObj.forEach(item=>{
+					if(item.name.indexOf(keywords) != -1){
+						newList.push(item);
+					}
+				})
+				return newList;*/
+				this.listObj.filter(item=>{
+					if(item.name.includes(keywords)){
+						newList.push(item);
+					}
+				})
+				return newList;
+			}
+		},
+		// 私有过滤器
+		filters:{
+			dateFormat: function (){
+
+			}
+		},
+		//私有指令
+		directives: {
+		  focus: {
+		    // 指令的定义
+		    inserted: function (el) {
+		      el.focus()
+		    }
+		  }
+		}
+	});
+	// // 获取键盘值
+	// document.onkeydown=function(ev){
+	// 	var ev = ev || event;
+	// 	alert(ev.keyCode);
+	// }
+</script>
+</html>
