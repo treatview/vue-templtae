@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+    <style>
+        .actives{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h2 :style="{fontSize: fSize}">动态绑定</h2>
+        <!-- 数据名和方法名不要重复 -->
+        <h2>{{totalPrice}}</h2>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+            fSize: '50px',
+            books: [
+                {id: 1, price: 100},
+                {id: 2, price: 101},
+                {id: 3, price: 102},
+            ],
+            totalPrice: 500
+        },
+        //计算属性不加 动词 并且调用时不加（）
+        computed: {
+            fullName: function(){
+
+            },
+            //reduce/map/filter
+            totalPrice: function(){
+                let res = 0;
+                for(let book of this.books){
+                    res += book.price
+                }
+                return res;
+            }
+        },
+        methods: {
+            btnClick: function(){
+                this.isActive = !this.isActive
+            }
+        }
+    })
+</script>  
+</html>

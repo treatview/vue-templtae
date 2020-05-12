@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+    <style>
+        .actives{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <img v-bind:src="imgUrl" alt="">
+        <!-- 语法糖 -->
+        <img :src="imgUrl" alt="">
+        <!-- 动态绑定class属性 -->
+        <h2 :class="active">你好</h2>
+        <!-- 类中属性true 就显示  对象语法-->
+        <h2 class="title" v-bind:class="{actives: isActive, line: isLine}">你好</h2>
+        <h2 :class="[active, isLine]">数组语法</h2>
+        <button v-on:click="btnClick()">按钮</button>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+            imgUrl: 'https://img.alicdn.com/tfs/TB1_XzKFoT1gK0jSZFhXXaAtVXa-520-280.jpg_q90_.webp',
+            active: 'actives',
+            isActive: true,
+            isLine: true
+        },
+        methods: {
+            btnClick: function(){
+                this.isActive = !this.isActive
+            }
+        }
+    })
+</script>  
+</html>

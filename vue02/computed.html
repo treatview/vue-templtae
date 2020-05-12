@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+
+</head>
+<body>
+    <!-- settter 和 getter -->
+    <div id="app">
+        <h2>{{fullName}}</h2>
+    </div>
+</body>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+            firstName: 'zhang',
+            lastName: 's'
+        },
+        //计算属性不加 动词 并且调用时不加（）
+        computed: {
+            fullName: {
+                //set 不常使用 可以删除
+                set: function(newValue){
+                    console.log(newValue)
+                },
+                get: function(){
+                    return this.firstName + ' ' + this.lastName;
+                }
+                //上述的简写
+            },
+            fullName1: function(){
+
+            }
+        },
+        methods: {
+            
+        }
+    })
+</script>  
+</html>
