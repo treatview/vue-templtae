@@ -12,8 +12,22 @@
     <div id="app">
         
     </div>
+    <button>1</button>
+    <button>2</button>
 </body>
 <script>
+    var btns = document.getElementsByTagName('button')
+    //无块级作用域时 每次点击都是五
+    for(var i=0;i<btns.length;i++){
+        btns[i].addEventListener('click',function(){
+            console.log(i);
+        })
+    }
+    for(let i=0;i<btns.length;i++){
+        btns[i].addEventListener('click',function(){
+            console.log(i);
+        })
+    }
     const app = new Vue({
         el: '#app',
         data: {

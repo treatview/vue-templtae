@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../lib/js/vue.js"></script>
+
+</head>
+<body>
+    <!-- es6 语法-->
+    <div id="app">
+        <button @click="btnClick">+</button>
+        <!-- 调用时手动获取浏览器event 对象 $event-->
+        <button @click="btnClick1(123,$event)">+</button>
+        <!-- stop阻止事件冒泡 -->
+        <div @click="divClick">
+            <button @click.stop="btnClicks">++</button>
+        </div>
+
+        <!-- prevent 修饰符的使用 阻止默认事件 -->
+        <form action="ba">
+            <input type="submit" value="提交" @click.prevent="formSub">
+        </form>
+        
+        <!-- 监听键盘 -->
+        <input type="text" @keyUp.enter="keyUp">
+
+        <!-- .once -->
+        <button @click.once="onceClick">阿牛</button>
+    </div>
+
+</body>
+<script>
+    //v-on 事件绑定, 方法中默认存在event对象
+  
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: '你好',
+        
+        },
+        //计算属性不加 动词 并且调用时不加（）
+        computed: {
+            
+        },
+        methods: {
+           btnClick(e){
+                console.log(e)
+           },
+           btnClick1(abc,e){
+                console.log(abc,e)
+           },
+           btnClicks(){
+               console.log('bc')
+           },
+           divClick(){
+               console.log('dc')
+           },
+           formSub(){
+               console.log('formsub')
+           },
+           keyUp(){
+               console.log('enter')
+           },
+           onceClick(){
+               console.log('onceClik')
+           }
+        }
+    })
+</script>  
+</html>
